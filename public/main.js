@@ -89,11 +89,11 @@ window.addEventListener('DOMContentLoaded',function () {
     updateCipherInfoFromSelect(e.target.value);
   });
   
-  inputPlaintext.addEventListener('keyup', (e) => {
+  inputPlaintext.addEventListener('input', (e) => {
     encipherPlaintextField();
   }, false);
   
-  inputCiphertext.addEventListener('keyup', (e) => {
+  inputCiphertext.addEventListener('input', (e) => {
     decipherCiphertextField();
   }, false);
 

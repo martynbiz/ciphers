@@ -103,33 +103,46 @@
       </div>
     </div>
 
-    <h2>Encipher</h2>
+    <ul class="nav nav-pills mb-3" id="menu">
+      <li class="nav-item">
+        <a href="#encipher" class="nav-link active" data-bs-toggle="tab">Encipher</a>
+      </li>
+      <li class="nav-item">
+        <a href="#decipher" class="nav-link" data-bs-toggle="tab">Decipher</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="encipher">
+        <!-- <h2>Encipher</h2> -->
 
-    <label for="input_plaintext" class="form-label">Plaintext</label>
-    <textarea class="form-control" rows="6" id="input_plaintext"></textarea>
+        <label for="input_plaintext" class="form-label">Plaintext</label>
+        <textarea class="form-control" rows="6" id="input_plaintext"></textarea>
 
-    <label for="output_ciphertext" class="form-label">Ciphertext</label>
-    <div class="position-relative">
-      <textarea class="form-control" rows="10" id="output_ciphertext" readonly></textarea>
-      <a href="#" id="copyCiphertext" class="copy-btn">
-        <i class="fa-regular fa-copy"></i>
-      </a href="#">
+        <label for="output_ciphertext" class="form-label">Ciphertext</label>
+        <div class="position-relative">
+          <textarea class="form-control" rows="10" id="output_ciphertext" readonly></textarea>
+          <a href="#" id="copyCiphertext" class="copy-btn">
+            <i class="fa-regular fa-copy"></i>
+          </a href="#">
+        </div>
+      </div>
+      <div class="tab-pane fade" id="decipher">
+        <!-- <h2>Decipher</h2> -->
+
+        <label for="input_ciphertext" class="form-label">Ciphertext</label>
+        <textarea class="form-control" rows="6" id="input_ciphertext"></textarea>
+
+        <label for="output_plaintext" class="form-label">Plaintext</label>
+        <div class="position-relative">
+          <textarea class="form-control" rows="10" id="output_plaintext" readonly></textarea>
+          <a href="#" id="copyPlaintext" class="copy-btn">
+            <i class="fa-regular fa-copy"></i>
+          </a href="#">
+        </div>
+      </div>
     </div>
 
-    <hr>
 
-    <h2>Decipher</h2>
-
-    <label for="input_ciphertext" class="form-label">Ciphertext</label>
-    <textarea class="form-control" rows="6" id="input_ciphertext"></textarea>
-
-    <label for="output_plaintext" class="form-label">Plaintext</label>
-    <div class="position-relative">
-      <textarea class="form-control" rows="10" id="output_plaintext" readonly></textarea>
-      <a href="#" id="copyPlaintext" class="copy-btn">
-        <i class="fa-regular fa-copy"></i>
-      </a href="#">
-    </div>
   </div>
 
   <!-- Optional JavaScript; choose one of the two! -->
