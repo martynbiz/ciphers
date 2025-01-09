@@ -1,9 +1,10 @@
 export default class ElectronicCodeBook {
 
-  description = `<p>Electronic Code Book Mode (ECB) is a <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">block cipher mode of operation</a> where the message is divided into blocks and each block is encrypted separately. While easy to implement, ECB lacks diffusion, meaning identical plaintext blocks are encrypted into identical ciphertext blocks, revealing data patterns. As a result, ECB is not recommended for cryptographic protocols.</p>`;
+  description = `<p>Electronic Code Book Mode (ECB) is a <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">block cipher mode of operation</a> where the message is divided into blocks and each block is encrypted separately. While easy to implement, ECB lacks diffusion, meaning identical plaintext blocks are encrypted into identical ciphertext blocks, revealing data patterns. As a result, ECB is not recommended for cryptographic protocols.</p>
+  <p><img src="https://megankaczanowski.com/content/images/2020/12/Screen-Shot-2020-12-31-at-8.22.20-PM.png" alt="ECB diagram" class="img-fluid" /><p>`;
 
   parametersHTML = `<label for="secretKey" class="form-label">Secret key</label>
-    <input class="form-control" value="123" id="secretKey" />
+    <input class="form-control" value="12345" id="secretKey" />
     <label for="blockSize" class="form-label">Block size</label>
     <input class="form-control" value="5" id="blockSize" />`;
 

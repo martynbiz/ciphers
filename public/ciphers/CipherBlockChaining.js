@@ -1,10 +1,11 @@
 export default class CipherBlockChaining {
 
   description = `<p>Cipher Block Chaining (CBC) is a <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">block cipher mode of operation</a> where each plaintext block is combined with the previous ciphertext block before being encrypted, ensuring that identical plaintext blocks produce different ciphertexts and providing better diffusion and security.</p>
-    <p>An Initialization Vector (IV) is used in the first block to ensure that the encryption of the first block is random and independent of the key, enhancing security by preventing identical ciphertexts for identical plaintexts across different sessions. The inclusion of the IV with the ciphertext is crucial for decryption to work properly.</p>`;
+    <p>An Initialization Vector (IV) is used in the first block to ensure that the encryption of the first block is random and independent of the key, enhancing security by preventing identical ciphertexts for identical plaintexts across different sessions. The inclusion of the IV with the ciphertext is crucial for decryption to work properly.</p>
+  <p><img src="https://megankaczanowski.com/content/images/2020/12/Screen-Shot-2020-12-31-at-8.22.37-PM.png" alt="CBC diagram" class="img-fluid" /><p>`;
 
   parametersHTML = `<label for="secretKey" class="form-label">Secret key</label>
-    <input class="form-control" value="123" id="secretKey" />
+    <input class="form-control" value="12345" id="secretKey" />
     <label for="blockSize" class="form-label">Block size</label>
     <input class="form-control" value="5" id="blockSize" />`;
 
