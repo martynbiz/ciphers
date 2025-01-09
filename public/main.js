@@ -68,16 +68,18 @@ window.addEventListener('DOMContentLoaded',function () {
       loadedCipher = null;
       desc.innerHTML = ""
     }
-    
-    parameters.innerHTML = loadedCipher ? loadedCipher.parametersHTML : "";
 
-    // TODO added event listeners to parameter fields too on change
-
-    // inputPlaintext.readOnly = !loadedCipher
-    // inputCiphertext.readOnly = !loadedCipher
-    defaultDesc.style.display = !loadedCipher ? 'block' : 'none';
+    if (loadedCipher) {
     
-    desc.innerHTML = loadedCipher.description;
+      parameters.innerHTML = loadedCipher ? loadedCipher.parametersHTML : "";
+  
+      // TODO added event listeners to parameter fields too on change
+  
+      defaultDesc.style.display = !loadedCipher ? 'block' : 'none';
+      
+      desc.innerHTML = loadedCipher.description;
+      
+    }
 
     encipherPlaintextField();
     decipherCiphertextField();
