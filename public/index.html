@@ -34,13 +34,13 @@
     }
   </style>
 
-  <title>Ciphers</title>
+  <title>Meet the Ciphers</title>
 </head>
 
 <body>
   <div class="container my-5">
 
-    <h1>Ciphers</h1>
+    <h1>Meet the Ciphers</h1>
 
     <div id="error" class="bg-warning p-3" style="display: none"></div>
 
@@ -57,6 +57,7 @@
         <optgroup label="Block cipher mode of operation">
           <option value="./ciphers/ElectronicCodeBookMode.js">Electronic Code Book mode (ECB)</option>
           <option value="./ciphers/CipherBlockChaining.js">Cipher Block Chaining mode (CBC)</option>
+          <option value="./ciphers/CipherFeedback.js">Cipher Feedback mode (CFB)</option>
         </optgroup>
         <optgroup label="Classical ciphers">
           <option value="./ciphers/Affine.js">Affine cipher</option>
@@ -66,7 +67,7 @@
           <option value="./ciphers/Transposition.js">Transposition cipher</option>
         </optgroup> -->
         <optgroup label="Historical machine ciphers">
-          <option value="./ciphers/EnigmaMachine.js" selected>Enigma machine</option>
+          <option value="./ciphers/EnigmaMachine.js">Enigma machine</option>
           <!-- <option value="./ciphers/Lorenz.js">Lorenz cipher</option> -->
         </optgroup>
         <!-- <optgroup label="Modern symmetric ciphers">
@@ -81,7 +82,8 @@
       <fieldset id="parameters" class="p-3 border mt-3"></fieldset>
 
       <div class="mt-3">
-        <div id="default_desc">
+
+        <!-- <div id="default_desc">
           <p><a href="https://en.wikipedia.org/wiki/Cipher">Ciphers</a> have a long history, dating back to ancient
             civilizations, where methods like the <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar
               cipher</a> were used to encode messages and protect sensitive information</p>
@@ -98,7 +100,7 @@
               href="https://en.wikipedia.org/wiki/Quantum_computing">quantum computing</a> threatens to break current
             encryption systems, driving the development of new, more secure algorithms that can withstand the
             capabilities of future computing power.</p>
-        </div>
+        </div> -->
         <div id="desc"></div>
       </div>
     </div>
@@ -113,8 +115,6 @@
     </ul>
     <div class="tab-content">
       <div class="tab-pane fade show active" id="encipher">
-        <!-- <h2>Encipher</h2> -->
-
         <label for="input_plaintext" class="form-label">Plaintext</label>
         <textarea class="form-control mb-3" rows="6" id="input_plaintext"></textarea>
 
@@ -127,8 +127,6 @@
         </div>
       </div>
       <div class="tab-pane fade" id="decipher">
-        <!-- <h2>Decipher</h2> -->
-
         <label for="input_ciphertext" class="form-label">Ciphertext</label>
         <textarea class="form-control mb-3" rows="6" id="input_ciphertext"></textarea>
 

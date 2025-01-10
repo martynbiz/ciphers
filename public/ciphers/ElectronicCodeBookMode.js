@@ -1,15 +1,30 @@
-export default class ElectronicCodeBook {
+export default class ElectronicCodeBook extends EventTarget {
 
-  description = `<p>Electronic Code Book Mode (ECB) is a <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">block cipher mode of operation</a> where the message is divided into blocks and each block is encrypted separately. While easy to implement, ECB lacks diffusion, meaning identical plaintext blocks are encrypted into identical ciphertext blocks, revealing data patterns. As a result, ECB is not recommended for cryptographic protocols.</p>
-  <p><img src="https://megankaczanowski.com/content/images/2020/12/Screen-Shot-2020-12-31-at-8.22.20-PM.png" alt="ECB diagram" class="img-fluid" /><p>`;
+  #descriptionHTML = `<p>Electronic Code Book Mode (ECB) is a <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">block cipher mode of operation</a> where the message is divided into blocks and each block is encrypted separately. While easy to implement, ECB lacks diffusion, meaning identical plaintext blocks are encrypted into identical ciphertext blocks, revealing data patterns. As a result, ECB is not recommended for cryptographic protocols.<p>`;
 
-  parametersHTML = `<label for="secretKey" class="form-label">Secret key</label>
+  #parametersHTML = `<label for="secretKey" class="form-label">Secret key</label>
     <input class="form-control" value="12345" id="secretKey" />
     <label for="blockSize" class="form-label">Block size</label>
     <input class="form-control" value="5" id="blockSize" />`;
 
   constructor(parameters) {
+    super();
     this.parameters = parameters
+  }
+
+  init(descriptionContainer, paramtersContainer) {
+    descriptionContainer.innerHTML = this.#descriptionHTML;
+    paramtersContainer.innerHTML = this.#parametersHTML;
+
+    const emitChange = (e) => {
+      const data = { value: e.target.value }; // Example data to send with the event
+      const event = new CustomEvent('change_parameters', { detail: data });
+      this.dispatchEvent(event); // Dispatch the event
+    }
+
+    // Attach input listener
+    document.getElementById("secretKey").addEventListener("input", emitChange);
+    document.getElementById("blockSize").addEventListener("input", emitChange);
   }
 
   #xorBlock(block, key) {

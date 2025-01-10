@@ -62,23 +62,21 @@ window.addEventListener('DOMContentLoaded',function () {
       } catch (error) {
         loadedCipher = null;
         desc.innerHTML = ""
+        // parameters.innerHTML = ""
         showError(error);
       }
     } else {
       loadedCipher = null;
       desc.innerHTML = ""
+      // parameters.innerHTML = ""
     }
 
     if (loadedCipher) {
-    
-      parameters.innerHTML = loadedCipher ? loadedCipher.parametersHTML : "";
-  
-      // TODO added event listeners to parameter fields too on change
-  
-      defaultDesc.style.display = !loadedCipher ? 'block' : 'none';
-      
-      desc.innerHTML = loadedCipher.description;
-      
+      loadedCipher.init(desc, parameters);  
+      loadedCipher.addEventListener('change_parameters', (event) => {
+        encipherPlaintextField();
+        decipherCiphertextField();
+      });    
     }
 
     encipherPlaintextField();

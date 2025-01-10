@@ -1,9 +1,9 @@
-export default class EnigmaMachine {
+export default class EnigmaMachine extends EventTarget {
 
-  description = `<p>The Enigma machine was a sophisticated encryption device used primarily by Nazi Germany during World War II to secure military communications. It employed a system of rotors and plugboards to generate complex polyalphabetic ciphers, making it one of the most advanced mechanical cipher systems of its time. Despite its perceived invulnerability, the machine's codes were famously broken by Allied cryptographers, significantly influencing the outcome of the war.</p>
+  #descriptionHTML = `<p>The Enigma machine was a sophisticated encryption device used primarily by Nazi Germany during World War II to secure military communications. It employed a system of rotors and plugboards to generate complex polyalphabetic ciphers, making it one of the most advanced mechanical cipher systems of its time. Despite its perceived invulnerability, the machine's codes were famously broken by Allied cryptographers, significantly influencing the outcome of the war.</p>
   <p>TODO</p>`;
 
-  parametersHTML = `<label for="rotor1" class="form-label">Rotor #1 start</label>
+  #parametersHTML = `<label for="rotor1" class="form-label">Rotor #1 start</label>
     <input class="form-control" value="0" id="rotor1" />
     <label for="rotor2" class="form-label">Rotor #2 start</label>
     <input class="form-control" value="0" id="rotor2" />
@@ -13,6 +13,7 @@ export default class EnigmaMachine {
     <input class="form-control" value="ab cd ef" id="plugboard" />`;
 
   constructor(parameters) {
+    super();
     this.parameters = parameters;
     this.rotors = [
       "EKMFLGDQVZNTOWYHXUSPAIBRCJ", // Rotor I
@@ -21,6 +22,23 @@ export default class EnigmaMachine {
     ];
     this.reflector = "YRUHQSLDPXNGOKMIEBFZCWVJAT"; // Reflector B
     this.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  }
+
+  init(descriptionContainer, paramtersContainer) {
+    descriptionContainer.innerHTML = this.#descriptionHTML;
+    paramtersContainer.innerHTML = this.#parametersHTML;
+
+    const emitChange = (e) => {
+      const data = { value: e.target.value }; // Example data to send with the event
+      const event = new CustomEvent('change_parameters', { detail: data });
+      this.dispatchEvent(event); // Dispatch the event
+    }
+
+    // Attach input listener
+    document.getElementById("rotor1").addEventListener("input", emitChange);
+    document.getElementById("rotor2").addEventListener("input", emitChange);
+    document.getElementById("rotor3").addEventListener("input", emitChange);
+    document.getElementById("plugboard").addEventListener("input", emitChange);
   }
 
   /**

@@ -1,16 +1,70 @@
-export default class CipherBlockChaining {
+export default class CipherBlockChaining extends EventTarget {
 
-  description = `<p>Cipher Block Chaining (CBC) is a <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">block cipher mode of operation</a> where each plaintext block is combined with the previous ciphertext block before being encrypted, ensuring that identical plaintext blocks produce different ciphertexts and providing better diffusion and security.</p>
-    <p>An Initialization Vector (IV) is used in the first block to ensure that the encryption of the first block is random and independent of the key, enhancing security by preventing identical ciphertexts for identical plaintexts across different sessions. The inclusion of the IV with the ciphertext is crucial for decryption to work properly.</p>
-  <p><img src="https://megankaczanowski.com/content/images/2020/12/Screen-Shot-2020-12-31-at-8.22.37-PM.png" alt="CBC diagram" class="img-fluid" /><p>`;
+  #descriptionHTML = `<ul class="nav nav-tabs mb-3" id="menu">
+      <li class="nav-item">
+        <a href="#description" class="nav-link active" data-bs-toggle="tab">Decription</a>
+      </li>
+      <li class="nav-item">
+        <a href="#code" class="nav-link" data-bs-toggle="tab">Code</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="description">    
+        <p>Cipher Block Chaining (CBC) is a <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">block cipher mode of operation</a> where each plaintext block is combined with the previous ciphertext block before being encrypted, ensuring that identical plaintext blocks produce different ciphertexts and providing better diffusion and security.</p>
+        <p>An Initialization Vector (IV) is used in the first block to ensure that the encryption of the first block is random and independent of the key, enhancing security by preventing identical ciphertexts for identical plaintexts across different sessions. The inclusion of the IV with the ciphertext is crucial for decryption to work properly.<p>
+        <p>C<sup>1</sup> = e<sup>k</sup>(B<sup>1</sup> ​⊕ IV)</p>
+        <p>C<sup>i</sup> = e<sup>k</sup>(B<sup>i</sup> ​⊕ C<sup>i-1</sup>), for i > 1</p>
+      </div>
+      <div class="tab-pane fade" id="code">
+        <pre>
+          function CBC_Encrypt(plaintext, key, iv, block_size):
+            blocks = split_into_blocks(plaintext, block_size)
+            ciphertext = []
+            previous_block = iv
+            for each block in blocks:
+                xor_block = XOR(block, previous_block)
+                encrypted_block = Encrypt_Block(xor_block, key)
+                ciphertext.append(encrypted_block)
+                previous_block = encrypted_block
+            return concatenate(ciphertext)
 
-  parametersHTML = `<label for="secretKey" class="form-label">Secret key</label>
+          function CBC_Decrypt(ciphertext, key, iv, block_size):
+            blocks = split_into_blocks(ciphertext, block_size)
+            plaintext = []
+            previous_block = iv
+            for each block in blocks:
+                decrypted_block = Encrypt_Block(block, key)
+                plaintext_block = XOR(decrypted_block, previous_block)
+                plaintext.append(plaintext_block)
+                previous_block = block
+            return concatenate(plaintext)
+        </pre>
+      </div>
+    </div>`;
+
+  #parametersHTML = `<label for="secretKey" class="form-label">Secret key</label>
     <input class="form-control" value="12345" id="secretKey" />
     <label for="blockSize" class="form-label">Block size</label>
     <input class="form-control" value="5" id="blockSize" />`;
 
   constructor(parameters) {
+    super();
     this.parameters = parameters;
+  }
+
+  init(descriptionContainer, paramtersContainer) {
+    descriptionContainer.innerHTML = this.#descriptionHTML;
+    paramtersContainer.innerHTML = this.#parametersHTML;
+
+    const emitChange = (e) => {
+      const data = { value: e.target.value }; // Example data to send with the event
+      const event = new CustomEvent('change_parameters', { detail: data });
+      this.dispatchEvent(event); // Dispatch the event
+    }
+
+    // Attach input listener
+    document.getElementById("secretKey").addEventListener("input", emitChange);
+    document.getElementById("blockSize").addEventListener("input", emitChange);
   }
 
   #xorBlock(block, key) {
@@ -44,22 +98,32 @@ export default class CipherBlockChaining {
     const key = this.parameters.querySelector("#secretKey").value;
     const blockSize = parseInt(this.parameters.querySelector("#blockSize").value);
 
-    const iv = Array.from({ length: 5 }, () => String.fromCharCode(Math.floor(Math.random() * 94) + 33)).join('');
+    if (plaintext === "") {
+      return "";
+    }
+
+    const iv = Array.from({ length: blockSize }, () => String.fromCharCode(Math.floor(Math.random() * 94) + 33)).join('');
 
     let paddedPlaintext = this.#padBlock(plaintext, blockSize);    
     let ciphertext = '';
     let previousBlock = iv; // First block is XORed with the IV
 
-    // Process each block
-    for (let i = 0; i < paddedPlaintext.length; i += blockSize) {
-      let block = paddedPlaintext.slice(i, i + blockSize);
+    const regex = new RegExp(`.{1,${blockSize}}`, 'g');
+    const blocks = paddedPlaintext.match(regex);
 
-      const xoredBlock = this.#xorBlock(block, previousBlock); // XOR with previous ciphertext (or IV for the first block)
-      const encryptedBlock = this.#xorBlock(xoredBlock, key); // Simulate encryption by XORing with key (you can replace with real encryption)
-      ciphertext += encryptedBlock; // XOR each block with the key
+    // Process each block
+    for (let i = 0; i < blocks.length; i += 1) {
+      // let block = paddedPlaintext.slice(i, i + blockSize);
+
+      blocks[i] = this.#xorBlock(blocks[i], previousBlock); // XOR with previous ciphertext (or IV for the first block)
+      blocks[i] = this.#xorBlock(blocks[i], key); // Simulate encryption by XORing with key (you can replace with real encryption)
+      ciphertext += blocks[i]; // XOR each block with the key
       
-      previousBlock = encryptedBlock;
+      previousBlock = blocks[i];
     }
+
+    console.log(blocks);
+    
 
     return iv + ciphertext;
   }
@@ -73,24 +137,36 @@ export default class CipherBlockChaining {
     const key = this.parameters.querySelector("#secretKey").value;
     const blockSize = parseInt(this.parameters.querySelector("#blockSize").value);
 
+    if (ciphertext === "") {
+      return "";
+    }
+
     let plaintext = '';
-    let previousBlock;
+    // let previousBlock;
+
+    const regex = new RegExp(`.{1,${blockSize}}`, 'g');
+    const blocks = ciphertext.match(regex);
+
+    let iv = blocks.shift();
+    let previousBlock = iv;
+
+    console.log(blocks);
 
     // Process each block
-    for (let i = 0; i < ciphertext.length; i += blockSize) {
-      const encryptedBlock = ciphertext.slice(i, i + blockSize);
+    for (let i = 0; i < blocks.length; i += 1) {
+      // const encryptedBlock = ciphertext.slice(i, i + blockSize);
 
-      // get iv from first block
-      if (i === 0) {
-        previousBlock = encryptedBlock;
-        continue;
-      }
+      // // get iv from first block
+      // if (i === 0) {
+      //   previousBlock = blocks[i];
+      //   continue;
+      // }
 
-      const xored = this.#xorBlock(encryptedBlock, key); // Decrypt the block
-      const decryptedBlock = this.#xorBlock(xored, previousBlock); // XOR with the previous block (or IV)
-      plaintext += decryptedBlock;
+      blocks[i] = this.#xorBlock(blocks[i], key); // Decrypt the block
+      blocks[i] = this.#xorBlock(blocks[i], previousBlock); // XOR with the previous block (or IV)
+      plaintext += blocks[i];
 
-      previousBlock = encryptedBlock;
+      previousBlock = blocks[i];
     }
 
     return this.#unpadBlock(plaintext);

@@ -1,6 +1,6 @@
-export default class MultiplicativeCipher {
+export default class MultiplicativeCipher extends EventTarget {
 
-  description = `<p><a href="https://en.wikipedia.org/wiki/RSA">RSA</a> (Rivest-Shamir-Adleman) is one of the most widely used public-key cryptosystems for secure data transmission. It relies on the mathematical properties of large prime numbers and their product to create a pair of keys: a public key for encryption and a private key for decryption</p>
+  #descriptionHTML = `<p><a href="https://en.wikipedia.org/wiki/RSA">RSA</a> (Rivest-Shamir-Adleman) is one of the most widely used public-key cryptosystems for secure data transmission. It relies on the mathematical properties of large prime numbers and their product to create a pair of keys: a public key for encryption and a private key for decryption</p>
     <p>The security of RSA is based on the difficulty of factoring the product of two large primes, a problem that remains computationally infeasible with current technology for sufficiently large numbers</p>
     <p>The public key (e, n) is used for encryption.</p>
     <p>The private key (d, n) is used for decryption.</p>
@@ -8,7 +8,7 @@ export default class MultiplicativeCipher {
     <p>RSA is commonly used in securing communications, digital signatures, and key exchanges in modern cryptographic systems.</p>
     <p><a href="https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/intro-to-rsa-encryption">https://www.khanacademy.org/.../intro-to-rsa-encryption</a></p>`;
 
-  parametersHTML = `<label for="publicExponent" class="form-label">Public exponent</label>
+  #parametersHTML = `<label for="publicExponent" class="form-label">Public exponent</label>
     <input class="form-control" value="7" id="publicExponent" readonly />
     <label for="privateExponent" class="form-label">Private exponent</label>
     <input class="form-control" value="55" id="privateExponent" readonly />
@@ -19,7 +19,24 @@ export default class MultiplicativeCipher {
   // #alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   constructor(parameters) {
+    super();
     this.parameters = parameters
+  }
+
+  init(descriptionContainer, paramtersContainer) {
+    descriptionContainer.innerHTML = this.#descriptionHTML;
+    paramtersContainer.innerHTML = this.#parametersHTML;
+
+    const emitChange = (e) => {
+      const data = { value: e.target.value }; // Example data to send with the event
+      const event = new CustomEvent('change_parameters', { detail: data });
+      this.dispatchEvent(event); // Dispatch the event
+    }
+
+    // Attach input listener
+    document.getElementById("publicExponent").addEventListener("input", emitChange);
+    document.getElementById("privateExponent").addEventListener("input", emitChange);
+    document.getElementById("modulus").addEventListener("input", emitChange);
   }
 
   // /**
