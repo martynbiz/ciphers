@@ -7,7 +7,7 @@ export default class ShiftCipher extends EventTarget {
       <a href="https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/what-is-modular-arithmetic">https://www.khanacademy.org/.../what-is-modular-arithmetic</a></p>`;
 
   #parametersHTML = `<label for="key" class="form-label">Key</label>
-      <input class="form-control" value="3" id="key" />`;
+      <input class="form-control" type="number" value="3" id="key" min="0" max="99" />`;
 
   constructor(parameters) {
     super();
@@ -27,11 +27,16 @@ export default class ShiftCipher extends EventTarget {
   }
 
   #shiftChar(char, shift) {
+
+    if (!shift) {
+      return "";
+    }
+
     // Get the Unicode code point of the character
     let codePoint = char.codePointAt(0);
 
     // Apply the shift
-    codePoint = (codePoint + shift) % 0x110000 || 0;  // Wrap around the entire Unicode range  
+    codePoint = modular((codePoint + shift), 0x110000);  // Wrap around the entire Unicode range      
 
     // Return the encrypted character using the shifted code point
     return String.fromCodePoint(codePoint);

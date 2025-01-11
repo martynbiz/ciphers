@@ -5,7 +5,7 @@ export default class ElectronicCodeBook extends EventTarget {
   #parametersHTML = `<label for="secretKey" class="form-label">Secret key</label>
     <input class="form-control" value="12345" id="secretKey" />
     <label for="blockSize" class="form-label">Block size</label>
-    <input class="form-control" value="5" id="blockSize" />`;
+    <input class="form-control" type="number" value="5" id="blockSize" min="0" max="128" />`;
 
   constructor(parameters) {
     super();

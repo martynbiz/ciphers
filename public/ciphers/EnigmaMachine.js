@@ -4,11 +4,11 @@ export default class EnigmaMachine extends EventTarget {
   <p>TODO</p>`;
 
   #parametersHTML = `<label for="rotor1" class="form-label">Rotor #1 start</label>
-    <input class="form-control" value="0" id="rotor1" />
+    <input class="form-control" type="number" value="0" id="rotor1" min="0" max="25" />
     <label for="rotor2" class="form-label">Rotor #2 start</label>
-    <input class="form-control" value="0" id="rotor2" />
+    <input class="form-control" type="number" value="0" id="rotor2" min="0" max="25" />
     <label for="rotor3" class="form-label">Rotor #3 start</label>
-    <input class="form-control" value="0" id="rotor3" />
+    <input class="form-control" type="number" value="0" id="rotor3" min="0" max="25" />
     <label for="plugboard" class="form-label">Plugboard</label>
     <input class="form-control" value="ab cd ef" id="plugboard" />`;
 

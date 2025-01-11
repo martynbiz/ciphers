@@ -7,7 +7,7 @@ export default class MultiplicativeCipher extends EventTarget {
     <a href="https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/what-is-modular-arithmetic">https://www.khanacademy.org/.../what-is-modular-arithmetic</a></p>`;
 
   #parametersHTML = `<label for="key" class="form-label">Key</label>
-    <input class="form-control" value="3" id="key" />`;
+    <input class="form-control" type="number" value="3" id="key" min="1" max="99" />`;
 
   constructor(parameters) {
     super();
@@ -28,11 +28,16 @@ export default class MultiplicativeCipher extends EventTarget {
 
   // Private method for encryption using the multiplicative cipher
   #multiplicativeCipherEncrypt(character, key) {
+
+    if (!key) {
+      return "";
+    }
+
     // Get the Unicode code point of the character
     let codePoint = character.codePointAt(0);
 
     // Apply multiplicative cipher (multiply by the key and wrap around using mod)
-    codePoint = modular(codePoint * key, 0x110000) || 0;  // Wrap around the entire Unicode range (0 to 0x10FFFF)
+    codePoint = modular(codePoint * key, 0x110000);  // Wrap around the entire Unicode range (0 to 0x10FFFF)
 
     // Return the encrypted character as a string
     return String.fromCodePoint(codePoint);
